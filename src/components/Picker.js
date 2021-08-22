@@ -140,6 +140,7 @@ function Picker({
     onClose = () => {},
     setValue = (callback) => {},
     onChangeValue = (value) => {},
+    onChangeItem = (item) => {},
     onChangeSearchText = (text) => {},
     zIndex = 5000,
     zIndexInverse = 6000,
@@ -208,6 +209,7 @@ function Picker({
      */
     useEffect(() => {
         if (multiple) {
+            onChangeItem(selectedItems);
             setNecessaryItems(state => {
                 if (value === null || (Array.isArray(value) && value.length === 0))
                     return [];
@@ -247,6 +249,10 @@ function Picker({
         }
 
         if (initialization.current) {
+            const item = items.find(item => item[_schema.value] === value);
+            if (item) {
+                onChangeItem(item)
+            }
             onChangeValue(value);
         } else {
             initialization.current = true;
